@@ -7,7 +7,7 @@ import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 
-import "./Chat.css";
+import classes from "./Chat.module.css";
 
 const ENDPOINT = "localhost:5000";
 
@@ -54,17 +54,14 @@ const Chat = ({ location }) => {
   };
 
   return (
-    <div className="outerContainer">
-      <div className="container">
-        <InfoBar room={room} />
-        <Messages messages={messages} name={name} />
-        <Input
-          message={message}
-          setMessage={setMessage}
-          sendMessage={sendMessage}
-        />
-      </div>
-      <TextContainer users={users} />
+    <div className={classes.container}>
+      <InfoBar room={room} />
+      <Messages messages={messages} name={name} />
+      <Input
+        message={message}
+        setMessage={setMessage}
+        sendMessage={sendMessage}
+      />
     </div>
   );
 };

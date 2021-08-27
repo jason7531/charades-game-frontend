@@ -3,15 +3,15 @@ import React from "react";
 import onlineIcon from "../../icons/onlineIcon.png";
 import closeIcon from "../../icons/closeIcon.png";
 
-import "./InfoBar.css";
+import classes from "./InfoBar.module.css";
 
 const InfoBar = ({ room }) => (
-  <div className="infoBar">
-    <div className="leftInnerContainer">
-      <img className="onlineIcon" src={onlineIcon} alt="online icon" />
+  <div className={classes.infoBar}>
+    <div className={classes.leftInnerContainer}>
+      <img className={classes.onlineIcon} src={onlineIcon} alt="online icon" />
       <h3>{room}</h3>
     </div>
-    <div className="rightInnerContainer">
+    <div className={classes.rightInnerContainer}>
       <a href="/">
         <img src={closeIcon} alt="close icon" />
       </a>
