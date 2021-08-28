@@ -11,6 +11,9 @@ const Home = () => {
   const { search } = useLocation();
   const [allCards, setCards] = useState("");
   const [word, setWord] = useState("");
+  const [userName, setName] = useState("");
+  const [userRoom, setRoom] = useState("");
+  const [roomUsers, setUsers] = useState("");
 
   const { name, room } = queryString.parse(search);
 
@@ -26,6 +29,10 @@ const Home = () => {
     setCards(cards);
     setWord(randomWord.text);
   };
+  const getUsers = (users) => {
+    setUsers(users);
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -34,7 +41,10 @@ const Home = () => {
       {word && <h1>{`The Word is : ${word}`}</h1>}
       <div className={classes.row}>
         <div className={classes.left}>
-          <h1>left div</h1>
+          {roomUsers &&
+            roomUsers.map((row) => {
+              return <p>{row.name}</p>;
+            })}
         </div>
         <div className={classes.middle}>
           <div className={classes.grid}>
@@ -71,12 +81,17 @@ const Home = () => {
           </div>
         </div>
         <div className={classes.right}>
-          <iframe
+          {/* <iframe
             src={`/chat?name=${name}&room=${room}`}
             width="100%"
             height="500"
             style={{ border: "1px solid black;" }}
-          ></iframe>
+          ></iframe> */}
+          <Chat
+            username={name}
+            userroom={room}
+            getUsers={(users) => getUsers(users)}
+          />
         </div>
       </div>
 
