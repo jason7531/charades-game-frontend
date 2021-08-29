@@ -19,6 +19,8 @@ const Chat = (props) => {
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [card, setCards] = useState([]);
+  const [word, setWord] = useState("");
 
   useEffect(() => {
     // const { name, room } = queryString.parse(location.search);
@@ -35,6 +37,17 @@ const Chat = (props) => {
       }
     );
   }, [ENDPOINT, props.userroom, props.username]);
+  useEffect(() => {
+    socket.emit("sendCards", props.cards);
+  }, [props.cards]);
+  useEffect(() => {
+    if (props.word === word) {
+      console.log(props.word);
+      return;
+    } else {
+      socket.emit("sendWord", props.word);
+    }
+  }, [props.word]);
 
   useEffect(() => {
     socket.on("message", (message) => {
@@ -46,6 +59,20 @@ const Chat = (props) => {
       setUsers(users);
     });
   }, []);
+  useEffect(() => {
+    socket.on("getCards", (gotCards) => {
+      props.sendCards(gotCards);
+      setCards((prevState) => [...prevState, gotCards]);
+    });
+  }, [props.cards]);
+
+  useEffect(() => {
+    socket.on("getWord", (word) => {
+      setWord(word);
+      console.log(word);
+      props.gotWord(word);
+    });
+  }, [props.word]);
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -57,8 +84,8 @@ const Chat = (props) => {
 
   return (
     <div className={classes.container}>
-      <InfoBar room={room} />
-      <Messages messages={messages} name={name} />
+      <InfoBar room={props.userroom} />
+      <Messages messages={messages} name={props.username} word={word} />
       <Input
         message={message}
         setMessage={setMessage}
